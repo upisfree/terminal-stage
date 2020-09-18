@@ -28,6 +28,11 @@ float randomRangeFloat(float min, float max) {
   return min + scale * (max - min);
 }
 
+bool isPointInCircle(int x, int y, int x0, int y0, float r) {
+  // (x - x0)^2 + (y - y0)^2 <= R^2
+  return pow(x0 - x, 2) + pow(y0 - y, 2) <= pow(r, 2);
+} 
+
 // concat strings
 char* concat(const char *s1, const char *s2) {
   char *result = malloc(strlen(s1) + strlen(s2) + 1); // +1 for the null-terminator

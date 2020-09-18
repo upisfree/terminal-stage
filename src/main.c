@@ -1,15 +1,18 @@
-#include <math.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include <time.h>
 #include <ncurses.h>
+#include "math/noise.c"
 #include "math.c"
 #include "structs.c"
-#include "keyboard.c"
+#include "map.c"
 #include "physics.c"
+#include "keyboard.c"
 #include "render.c"
 #include "level.c"
 
-const int SEED = 1488;
+const int SEED = 2048;
 const int RECTS_COUNT = 2;
 const int NPCS_COUNT = 40;
 
@@ -18,9 +21,9 @@ int WINDOW_WIDTH;
 int WINDOW_HEIGHT;
 
 Player player = {
-  .position = { 10, 10 },
+  .position = { 256 / 2, 256 / 2 },
   .speed = 2,
-  .symbol = 'o'
+  .symbol = 'M'
 };
 
 Rectangle rects[RECTS_COUNT];
@@ -41,14 +44,23 @@ int main() {
   WINDOW_WIDTH = COLS;
   WINDOW_HEIGHT = LINES;
 
-  generateRectangles();
-  generateNPCs();
+  generatePerlinNoiseMap();
+  // generateRandomMap();
+  // readMapFromFile("./map");
+  // removeChars(mapBuffer, '\n');
+
+  // generateRectangles();
+  // generateNPCs();
+
+  // printw("%c\n", mapBuffer[0]);
+  // printw("%c\n", getCharFromMap(0, 1));
+  // printw("%c\n", getCharFromMap(255, 0));
 
   while (1) {
     WINDOW_WIDTH = COLS;
     WINDOW_HEIGHT = LINES;
 
-    updatePhysics();
+    // updatePhysics();
     render();
 
     updateKeyboard();

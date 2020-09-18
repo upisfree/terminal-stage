@@ -6,10 +6,15 @@ extern NPC npcs[];
 extern const int NPCS_COUNT;
 extern char* DEBUG_INFO;
 
-
+bool isXYOutOfWindow(int x, int y) {
+  return x < 0 ||
+         x > WINDOW_WIDTH - 1 ||
+         y < 0 ||
+         y > WINDOW_HEIGHT - 1;
+}
 
 void renderPixel(int x, int y, char symbol) {
-  if (isPositionOutOfBounds(x, y)) {
+  if (isXYOutOfWindow(x, y)) {
     return;
   }
 
@@ -31,44 +36,58 @@ void renderNPCs() {
   }
 }
 
+void renderMap() {
+  // система координат карты
+  int playerX = player.position.x;
+  int playerY = player.position.y;
+
+  // система координат экрана
+  int halfWidth = round(WINDOW_WIDTH / 2);
+  int halfHeight = round(WINDOW_HEIGHT / 2);
+
+  for (int screenX = 0; screenX < WINDOW_WIDTH; screenX++) {
+    for (int screenY = 0; screenY < WINDOW_HEIGHT; screenY++) {
+      int blockX = playerX - halfWidth + screenX;
+      int blockY = playerY - halfHeight + screenY;
+
+      if (isXYOutOfMap(blockX, blockY) == false) {
+        renderPixel(screenX, screenY, getCharFromMap(blockX, blockY));
+      } else {
+        renderPixel(screenX, screenY, (randomRangeInt(0, 1) == 1 ? '-' : '~'));
+      }
+    }
+  }
+}
+
 void renderPlayer() {
-  renderPixel(player.position.x, player.position.y, player.symbol);
+  int x = round(WINDOW_WIDTH / 2);
+  int y = round(WINDOW_HEIGHT / 2);
+
+  renderPixel(x, y, player.symbol);
+  // renderPixel(player.position.x, player.position.y, player.symbol);
 }
 
 void renderDebugInfo() {
-  char* text =
-    "terminal stage\n";
-    // "";
-
-  text = concat(text, DEBUG_INFO);
-
-  char x[64];
-  sprintf(x, "%f", npcs[0].position.x);
-  char y[64];
-  sprintf(y, "%f", npcs[0].position.y);
-  char r[64];
-  sprintf(r, "%f", npcs[0].rotation);
-  text = concat(text, x);
-  text = concat(text, ", ");
-  text = concat(text, y);
-  text = concat(text, "\n");
-  text = concat(text, r);
-
   move(0, 0);
-  printw("%s", text);
+  printw("%s", "terminal stage");
 
-  // free(text);
+  move(1, 0);
+  printw("%i, %i", (int)player.position.x, (int)player.position.y);
+
+  // text = concat(text, DEBUG_INFO);
 }
 
 void render() {
   clear();
 
-  for (int i = 0; i < RECTS_COUNT; i++) {
-    renderRectangle(&rects[i]);
-  }
+  // for (int i = 0; i < RECTS_COUNT; i++) {
+  //   renderRectangle(&rects[i]);
+  // }
 
-  renderNPCs();
-  // renderPlayer();
+  renderMap();
+  // renderNPCs();
+  renderPlayer();
+
   renderDebugInfo();
 
   refresh();

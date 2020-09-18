@@ -57,49 +57,78 @@ bool isVectorAndRectangleCollide(Vector2 *v, Rectangle *r) {
   // return isRectanglesCollide(r, &rv);
 }
 
-bool isPositionOutOfBounds(int x, int y) {
-  return x < 0 || x > WINDOW_WIDTH - 1 || y < 0 || y > WINDOW_HEIGHT - 1;
-}
+// bool isVectorOutOfBounds(Vector2 *v) {
+//   return v->x < 0 || v->x > WINDOW_WIDTH - 1 || v->y < 0 || v->y > WINDOW_HEIGHT;
+// }
 
-bool isVectorOutOfBounds(Vector2 *v) {
-  return v->x < 0 || v->x > WINDOW_WIDTH - 1 || v->y < 0 || v->y > WINDOW_HEIGHT;
-}
+// void updateNPCs() {
+//   for (int i = 0; i < NPCS_COUNT; i++) {
+//     Vector2 collisionVector = {
+//       round(npcs[i].position.x + npcs[i].speed * cos(npcs[i].rotation)),
+//       round(npcs[i].position.y + npcs[i].speed * sin(npcs[i].rotation))
+//     };
 
-void updateNPCs() {
-  for (int i = 0; i < NPCS_COUNT; i++) {
-    Vector2 collisionVector = {
-      round(npcs[i].position.x + npcs[i].speed * cos(npcs[i].rotation)),
-      round(npcs[i].position.y + npcs[i].speed * sin(npcs[i].rotation))
-    };
+//     // чет не работает
+//     for (int j = 0; j < RECTS_COUNT; j++) {
+//       if (isVectorAndRectangleCollide(&collisionVector, &rects[i])) {
+//         npcs[i].rotation += PI;
+//         // npcs[i].rotation *= -1.0f;
 
-    // чет не работает
-    for (int j = 0; j < RECTS_COUNT; j++) {
-      if (isVectorAndRectangleCollide(&collisionVector, &rects[i])) {
-        npcs[i].rotation += PI;
-        // npcs[i].rotation *= -1.0f;
+//         DEBUG_INFO = "collision: true\n";
 
-        DEBUG_INFO = "collision: true\n";
+//         // break;
+//       } else {
+//         DEBUG_INFO = "collision: false\n";
+//       }
+//     }
 
-        // break;
-      } else {
-        DEBUG_INFO = "collision: false\n";
-      }
-    }
+//     if (isVectorOutOfBounds(&collisionVector)) {
+//       npcs[i].rotation += PI;
+//       // npcs[i].rotation += PI / 2;
 
-    if (isVectorOutOfBounds(&collisionVector)) {
-      npcs[i].rotation += PI;
-      // npcs[i].rotation += PI / 2;
+//       // if (npcs[i].rotation > PI * 2) {
+//       //   npcs[i].rotation = 0.0f;
+//       // }
+//     }
 
-      // if (npcs[i].rotation > PI * 2) {
-      //   npcs[i].rotation = 0.0f;
-      // }
-    }
-
-    npcs[i].position.x = round(npcs[i].position.x + npcs[i].speed * cos(npcs[i].rotation));
-    npcs[i].position.y = round(npcs[i].position.y + npcs[i].speed * sin(npcs[i].rotation));
-  }
-}
+//     npcs[i].position.x = round(npcs[i].position.x + npcs[i].speed * cos(npcs[i].rotation));
+//     npcs[i].position.y = round(npcs[i].position.y + npcs[i].speed * sin(npcs[i].rotation));
+//   }
+// }
 
 void updatePhysics() {
-  updateNPCs();
+  // updateNPCs();
+}
+
+void explosion(int x0, int y0, float r) {
+  // int halfR = round(r / 2);
+  // int ir = round(r);
+
+  // for (int x = x0 - halfR; x < x0 + ir; x++) {
+  //   for (int y = y0 - halfR; y < y0 + ir; x++) {
+  //     // if (isXYOutOfMap(x, y)) {
+  //     //   continue;
+  //     // }
+
+  //     if (isPointInCircle(x, y, x0, y0, r)) {
+  //       setCharToMap(x, y, ' ');
+  //     }
+  //   }
+  // }
+
+
+  for (int _x = 0; _x < r * 2; _x++) {
+    for (int _y = 0; _y < r * 2; _y++) {
+      int x = x0 + _x;
+      int y = y0 + _y;
+
+      if (isXYOutOfMap(x, y)) {
+        continue;
+      }
+
+      if (isPointInCircle(x, y, x0, y0, r)) {
+        setCharToMap(x, y, ' ');
+      }
+    }
+  }
 }

@@ -28,9 +28,18 @@ float randomRangeFloat(float min, float max) {
   return min + scale * (max - min);
 }
 
+
+// (x - x0)^2 + (y - y0)^2 <= R^2
 bool isPointInCircle(int x, int y, int x0, int y0, float r) {
-  // (x - x0)^2 + (y - y0)^2 <= R^2
   return pow(x0 - x, 2) + pow(y0 - y, 2) <= pow(r, 2);
+} 
+
+// специальная версия для функции взрыва —
+// т.к. размер терминала обычно гораздо больше
+// по горизонтали, чем по вертикали, увеличиваем Y искусственно,
+// чтобы взрыв был более круглым
+bool isPointInCircleHalfY(int x, int y, int x0, int y0, float r) {
+  return pow(x0 - x, 2) + pow(y0 - y, 4) <= pow(r, 2);
 } 
 
 // concat strings

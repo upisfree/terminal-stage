@@ -10,3 +10,14 @@ typedef struct NPC {
   float rotation; // in rads
   char symbol;
 } NPC;
+
+typedef struct PostEffect {
+  char* name;
+  int step;
+} PostEffect;
+
+typedef struct ExplosionPostEffect {
+  PostEffect effect;
+  Vector2 position;
+  float intense;
+} ExplosionPostEffect;

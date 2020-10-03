@@ -30,6 +30,22 @@ void renderRectangle(Rectangle *rect) {
   }
 }
 
+void renderCircle(int x0, int y0, int length, float angleStep, char symbol) {
+  int x = x0;
+  int y = y0;
+
+  float angle = 0.0;
+
+  while (angle < 2 * PI) {
+    x = x0 + length * cos(angle);
+    y = y0 + length * sin(angle) / 2; // см. коммент к bool isPointInCircleHalfY
+
+    renderPixel(x, y, symbol);
+
+    angle += angleStep;
+  }
+}
+
 void renderNPCs() {
   for (int i = 0; i < NPCS_COUNT; i++) {
     renderPixel(npcs[i].position.x, npcs[i].position.y, npcs[i].symbol);
@@ -53,7 +69,7 @@ void renderMap() {
       if (isXYOutOfMap(blockX, blockY) == false) {
         renderPixel(screenX, screenY, getCharFromMap(blockX, blockY));
       } else {
-        renderPixel(screenX, screenY, (randomRangeInt(0, 1) == 1 ? '-' : '~'));
+        renderPixel(screenX, screenY, (randomRangeInt(0, 1) == 1 ? BLOCK_BORDER_SEA_1 : BLOCK_BORDER_SEA_2));
       }
     }
   }
@@ -77,6 +93,18 @@ void renderDebugInfo() {
   // text = concat(text, DEBUG_INFO);
 }
 
+// схема рендеринга постэффектов такая:
+// 1) любая функция кладёт имя постэффекта и его параметры в список активных постэффектов
+// 2) каждый тик мы проходимся по постэффектам в списке и вызываем функцию постэффекта
+//    с нужным шагом
+// 3) если шаг был последним, убираем из списка. если шагов бесконечно, рендерим каждый раз 
+// 
+// explosion() { postEffectExposion(); }
+// postEffectExposion(int step) { if (step == 0) { renderCircle(1) } elseif (step == 1) renderCircle(10) }
+void renderPostEffects() {
+
+}
+
 void render() {
   clear();
 
@@ -87,6 +115,7 @@ void render() {
   renderMap();
   // renderNPCs();
   renderPlayer();
+  renderPostEffects();
 
   renderDebugInfo();
 

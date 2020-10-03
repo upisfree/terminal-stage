@@ -3,9 +3,12 @@
 #include <math.h>
 #include <time.h>
 #include <ncurses.h>
+#include "lib/cvector.h"
+#include "blocks.c"
 #include "math/noise.c"
 #include "math.c"
 #include "structs.c"
+#include "post.c"
 #include "map.c"
 #include "physics.c"
 #include "keyboard.c"
@@ -29,6 +32,10 @@ Player player = {
 Rectangle rects[RECTS_COUNT];
 NPC npcs[NPCS_COUNT];
 
+PostEffectsList activePostEffectsList;
+
+cvector_vector_type(PostEffect) postEffects = NULL;
+
 char* DEBUG_INFO = "\n";
 
 int main() {
@@ -44,7 +51,6 @@ int main() {
   WINDOW_WIDTH = COLS;
   WINDOW_HEIGHT = LINES;
 
-  generatePerlinNoiseMap();
   // generateRandomMap();
   // readMapFromFile("./map");
   // removeChars(mapBuffer, '\n');
@@ -56,9 +62,18 @@ int main() {
   // printw("%c\n", getCharFromMap(0, 1));
   // printw("%c\n", getCharFromMap(255, 0));
 
+  initPostEffectsList(&activePostEffectsList);
+
+  float freq = 0.05;
+  float depth = 4;
+
   while (1) {
     WINDOW_WIDTH = COLS;
     WINDOW_HEIGHT = LINES;
+
+    generatePerlinNoiseMap(freq, depth);
+    freq += cos(time(NULL)) / 20000;
+    // depth += cos(time(NULL));
 
     // updatePhysics();
     render();

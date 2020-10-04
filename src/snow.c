@@ -1,23 +1,23 @@
 void renderPixel(int x, int y, char symbol);
 
-const int snowCount = 25;
-float snowXs[snowCount];
-float snowYs[snowCount];
+const int rainCount = 25;
+float rainXs[rainCount];
+float rainYs[rainCount];
 
-void generateSnow() {
-  for (int i = 0; i < snowCount; i++) {
-    snowXs[i] = randomRangeInt(0, WINDOW_WIDTH);
-    snowYs[i] = randomRangeInt(0, WINDOW_HEIGHT);
+void generateRain() {
+  for (int i = 0; i < rainCount; i++) {
+    rainXs[i] = randomRangeInt(0, WINDOW_WIDTH);
+    rainYs[i] = randomRangeInt(0, WINDOW_HEIGHT);
   }
 }
 
-void renderSnow() {
-  for (int i = 0; i < snowCount; i++) {
-    float x = snowXs[i];
-    float y = snowYs[i];
+void renderRain() {
+  for (int i = 0; i < rainCount; i++) {
+    float x = rainXs[i];
+    float y = rainYs[i];
 
     x += randomRangeInt(-1, 1);
-    y += 0.5;
+    y += 1;
 
     if (x < 0 || x > WINDOW_WIDTH) {
       x = randomRangeInt(0, WINDOW_WIDTH);
@@ -28,9 +28,9 @@ void renderSnow() {
       x = randomRangeInt(0, WINDOW_WIDTH);
     }
 
-    renderPixel(x, y, POST_SNOW);
+    renderPixel(x, y, POST_RAIN);
 
-    snowXs[i] = x;
-    snowYs[i] = y;
+    rainXs[i] = x;
+    rainYs[i] = y;
   }
 }

@@ -1,4 +1,4 @@
-void renderSnow();
+void renderRain();
 
 extern Player player;
 extern Rectangle rects[];
@@ -118,9 +118,9 @@ void render() {
   // renderNPCs();
   renderPlayer();
   // renderPostEffects();
-  renderSnow();
+  renderRain();
 
-  // renderDebugInfo();
+  renderDebugInfo();
 
   refresh();
 }

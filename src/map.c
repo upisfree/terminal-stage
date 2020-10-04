@@ -29,12 +29,21 @@ void readMapFromFile(char *path) {
   }
 }
 
+void generateEmptyMap() {
+  // выделяем память под строку
+  mapBuffer = malloc(MAP_WIDTH * MAP_HEIGHT);
+
+  for (int i = 0; i < MAP_WIDTH * MAP_HEIGHT; i++) {
+    mapBuffer[i] = BLOCK_AIR;
+  }
+}
+
 void generateRandomMap() {
   // выделяем память под строку
   mapBuffer = malloc(MAP_WIDTH * MAP_HEIGHT);
 
   for (int i = 0; i < MAP_WIDTH * MAP_HEIGHT; i++) {
-    mapBuffer[i] = (randomRangeInt(1, 100) == 99) ? 'o' : ' ';
+    mapBuffer[i] = (randomRangeInt(1, 100) == 99) ? BLOCK_STONE : BLOCK_AIR;
   }
 }
 

@@ -26,7 +26,7 @@ int WINDOW_HEIGHT;
 Player player = {
   .position = { 256 / 2, 256 / 2 },
   .speed = 2,
-  .symbol = 'M'
+  .symbol = BLOCK_PLAYER
 };
 
 Rectangle rects[RECTS_COUNT];
@@ -56,12 +56,13 @@ int main() {
 
   // initPostEffectsList(&activePostEffectsList);
 
-  generateSnow();
+  generateRain();
 
-  generatePerlinNoiseMap(0.05, 4);
+  generateEmptyMap();
+  // generatePerlinNoiseMap(0.05, 4);
 
-  float freq = 0.05;
-  float depth = 4;
+  // float freq = 0.05;
+  // float depth = 4;
 
   while (1) {
     WINDOW_WIDTH = COLS;

@@ -1,3 +1,5 @@
+void renderSnow();
+
 extern Player player;
 extern Rectangle rects[];
 extern NPC npcs[];
@@ -115,9 +117,10 @@ void render() {
   renderMap();
   // renderNPCs();
   renderPlayer();
-  renderPostEffects();
+  // renderPostEffects();
+  renderSnow();
 
-  renderDebugInfo();
+  // renderDebugInfo();
 
   refresh();
 }

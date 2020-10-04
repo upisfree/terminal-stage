@@ -10,7 +10,7 @@ const int KEY_D = 100;
 const int KEY_C = 99;
 
 // тут явно ошибка в слове флай)
-bool PLAYER_FLIES = true;
+bool PLAYER_FLYING = true;
 
 // TODO: на русской раскладе почему-то в три раза больше событий падает
 void updateKeyboard() {
@@ -19,7 +19,7 @@ void updateKeyboard() {
   switch (code) {
     case KEY_UP:
     case KEY_W:
-      if (isAirBlock(player.position.x, player.position.y - player.speed) || PLAYER_FLIES) {
+      if (isAirBlock(player.position.x, player.position.y - player.speed) || PLAYER_FLYING) {
         player.position.y -= player.speed;
       }
 
@@ -27,7 +27,7 @@ void updateKeyboard() {
     
     case KEY_DOWN:
     case KEY_S:
-      if (isAirBlock(player.position.x, player.position.y + player.speed) || PLAYER_FLIES) {
+      if (isAirBlock(player.position.x, player.position.y + player.speed) || PLAYER_FLYING) {
         player.position.y += player.speed;
       }
 
@@ -35,7 +35,7 @@ void updateKeyboard() {
 
     case KEY_LEFT:
     case KEY_A:
-      if (isAirBlock(player.position.x - player.speed, player.position.y) || PLAYER_FLIES) {
+      if (isAirBlock(player.position.x - player.speed, player.position.y) || PLAYER_FLYING) {
         player.position.x -= player.speed;
       }
 
@@ -43,7 +43,7 @@ void updateKeyboard() {
       
     case KEY_RIGHT:
     case KEY_D:
-      if (isAirBlock(player.position.x + player.speed, player.position.y) || PLAYER_FLIES) {
+      if (isAirBlock(player.position.x + player.speed, player.position.y) || PLAYER_FLYING) {
         player.position.x += player.speed;
       }
 

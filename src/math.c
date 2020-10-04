@@ -28,6 +28,9 @@ float randomRangeFloat(float min, float max) {
   return min + scale * (max - min);
 }
 
+bool randomBool() {
+  return randomRangeInt(0, 1);
+}
 
 // (x - x0)^2 + (y - y0)^2 <= R^2
 bool isPointInCircle(int x, int y, int x0, int y0, float r) {
